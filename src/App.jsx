@@ -1,84 +1,75 @@
-import { useState } from 'react';
+import {
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
 
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import Dashboard from './components/Dashboard';
-import Footer from './components/Footer';
-import Alert from './components/Alert';
+import AdminLayout from './components/AdminLayout.jsx';
+import Dashboard from './components/Dashboard.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+
+import Courses from './pages/Courses.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Teachers from './pages/Teachers.jsx';
+import Enrollments from './pages/Enrollments.jsx';
+import Users from './pages/Users.jsx';
 
 import './App.css';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  function login() {
-    setLoggedIn(true);
-  }
-
-  function logout() {
-    setLoggedIn(false);
-  }
-
   return (
-    <div className="app-shell">
-      <Sidebar />
+    <Routes>
+      <Route
+        path="/login"
+        element={<Login />}
+      />
 
-      <div className="app-page">
-        <Header
-          title="Panel administrativo"
-          description="Gestión académica de Quanti"
-          userName={
-            loggedIn
-              ? 'Administrador'
-              : 'Invitado'
-          }
-        />
+      <Route
+        path="/register"
+        element={<Register />}
+      />
 
-        <main>
-          <section
-            className="session-panel"
-            aria-labelledby="session-title"
-          >
-            <h2 id="session-title">
-              Acceso al panel
-            </h2>
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AdminLayout />}>
+          <Route
+            index
+            element={<Dashboard />}
+          />
 
-            <p>
-              Estado:
-              {loggedIn
-                ? ' sesión iniciada'
-                : ' sesión cerrada'}
-            </p>
+          <Route
+            path="courses"
+            element={<Courses />}
+          />
 
-            <div className="session-actions">
-              <button
-                type="button"
-                onClick={login}
-                disabled={loggedIn}
-              >
-                Iniciar sesión
-              </button>
+          <Route
+            path="teachers"
+            element={<Teachers />}
+          />
 
-              <button
-                type="button"
-                onClick={logout}
-                disabled={!loggedIn}
-              >
-                Cerrar sesión
-              </button>
-            </div>
-          </section>
+          <Route
+            path="enrollments"
+            element={<Enrollments />}
+          />
 
-          {loggedIn ? (
-            <Dashboard />
-          ) : (
-            <Alert message="Inicia sesión para acceder al dashboard." />
-          )}
-        </main>
+          <Route
+            path="users"
+            element={<Users />}
+          />
 
-        <Footer />
-      </div>
-    </div>
+        </Route>
+      </Route>
+
+      <Route
+        path="*"
+        element={
+          <Navigate
+            to="/"
+            replace
+          />
+        }
+      />
+    </Routes>
   );
 }
 

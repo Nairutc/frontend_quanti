@@ -1,24 +1,31 @@
+import { Link } from 'react-router-dom';
+
 function Sidebar() {
     const menuItems = [
         {
         id: 'dashboard',
         label: 'Dashboard',
+        path: '/',
         },
         {
         id: 'courses',
         label: 'Cursos',
+        path: '/courses',
         },
         {
         id: 'teachers',
         label: 'Profesores',
+        path: '/teachers',
         },
         {
         id: 'enrollments',
         label: 'Inscripciones',
+        path: '/enrollments',
         },
         {
         id: 'users',
         label: 'Usuarios',
+        path: '/users',
         },
     ];
 
@@ -35,9 +42,9 @@ function Sidebar() {
             <ul>
             {menuItems.map((item) => (
                 <li key={item.id}>
-                <a href={`#${item.id}`}>
+                <Link to={item.path}>
                     {item.label}
-                </a>
+                </Link>
                 </li>
             ))}
             </ul>

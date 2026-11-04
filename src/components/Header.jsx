@@ -2,6 +2,7 @@ function Header({
     title,
     description,
     userName,
+    onLogout,
     }) {
     return (
         <header className="topbar">
@@ -10,9 +11,18 @@ function Header({
             <p>{description}</p>
         </div>
 
-        <p className="current-user">
+        <div className="user-session">
+            <p className="current-user">
             Usuario: <strong>{userName}</strong>
-        </p>
+            </p>
+
+            <button
+            type="button"
+            onClick={onLogout}
+            >
+            Cerrar sesión
+            </button>
+        </div>
         </header>
     );
 }

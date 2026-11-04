@@ -1,8 +1,34 @@
-import StatCard from './StatCard';
-import CourseList from './CourseList';
-import EnrollmentTable from './EnrollmentTable';
+import {
+    useEffect,
+    useState,
+    } from 'react';
 
-function Dashboard() {
+    import { obtenerCursos } from '../service/api.js';
+
+    import StatCard from './StatCard.jsx';
+    import CourseList from './CourseList.jsx';
+    import EnrollmentTable from './EnrollmentTable.jsx';
+
+    function Dashboard() {
+    const [courses, setCourses] = useState([]);
+    const [error, setError] = useState('');
+    const [cargando, setCargando] = useState(true);
+
+    useEffect(() => {
+        async function cargarCursos() {
+        try {
+            const result = await obtenerCursos();
+            setCourses(result.data);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setCargando(false);
+        }
+        }
+
+        cargarCursos();
+    }, []);
+
     const stats = [
         {
         id: 1,
@@ -19,7 +45,7 @@ function Dashboard() {
         {
         id: 3,
         title: 'Cursos',
-        value: 8,
+        value: courses.length,
         description: 'Cursos disponibles',
         },
         {
@@ -30,98 +56,90 @@ function Dashboard() {
         },
     ];
 
-    const courses = [
-    {
-        id: 1,
-        name: 'React desde cero',
-        description: 'Introducción al desarrollo de interfaces con React.',
-        duration: '3 meses',
-        modality: 'Virtual',
-        price: 100,
-        teacher: 'María Gómez',
-    },
-    {
-        id: 2,
-        name: 'Diseño UX/UI',
-        description: 'Principios de diseño para productos digitales.',
-        duration: '2 meses',
-        modality: 'Virtual',
-        price: 80,
-        teacher: 'Carlos Pérez',
-    },
-    {
-        id: 3,
-        name: 'Node.js y APIs',
-        description: 'Creación de APIs REST con Node.js y Express.',
-        duration: '4 meses',
-        modality: 'Presencial',
-        price: 120,
-        teacher: 'Laura Rodríguez',
-    },
-];
-
-const enrollments = [
-    {
+    const enrollments = [
+        {
         id: 1,
         student: 'Ana Martínez',
         course: 'React desde cero',
         status: 'pendiente',
-    },
-    {
+        },
+        {
         id: 2,
         student: 'Luis Herrera',
         course: 'Node.js y APIs',
         status: 'confirmada',
-    },
-    {
+        },
+        {
         id: 3,
         student: 'Sofía Ramírez',
         course: 'Diseño UX/UI',
         status: 'cancelada',
-    },
-];
+        },
+    ];
 
     return (
-    <>
+        <>
         <section
             id="dashboard"
             aria-labelledby="dashboard-title"
-            >
-        <h2 id="dashboard-title">Resumen de la academia</h2>
+        >
+            <h2 id="dashboard-title">
+            Resumen de la academia
+            </h2>
 
-        <ul className="stats-grid">
+            <ul className="stats-grid">
             {stats.map((stat) => (
-            <li key={stat.id}>
+                <li key={stat.id}>
                 <StatCard
-                title={stat.title}
-                value={stat.value}
-                description={stat.description}
+                    title={stat.title}
+                    value={stat.value}
+                    description={stat.description}
                 />
-            </li>
+                </li>
             ))}
-        </ul>
+            </ul>
         </section>
 
         <section
-        id="courses"
-        aria-labelledby="courses-title"
+            id="courses"
+            aria-labelledby="courses-title"
         >
-        <h2 id="courses-title">Cursos recientes</h2>
-        <CourseList courses={courses} />
+            <h2 id="courses-title">
+            Cursos recientes
+            </h2>
+
+            {cargando && (
+            <p>Cargando cursos...</p>
+            )}
+
+            {error && (
+            <p
+                className="form-error"
+                role="alert"
+            >
+                {error}
+            </p>
+            )}
+
+            {!cargando && !error && (
+            <CourseList courses={courses} />
+            )}
         </section>
 
         <section
-        id="enrollments"
-        aria-labelledby="enrollments-title"
+            id="enrollments"
+            aria-labelledby="enrollments-title"
         >
-        <h2 id="enrollments-title">
+            <h2 id="enrollments-title">
             Inscripciones recientes
-        </h2>
+            </h2>
 
-        <EnrollmentTable enrollments={enrollments} />
+            <EnrollmentTable
+            enrollments={enrollments}
+            />
         </section>
-    </>
-);
+        </>
+    );
 }
 
 export default Dashboard;
