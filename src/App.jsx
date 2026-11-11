@@ -1,5 +1,4 @@
 import {
-  Navigate,
   Route,
   Routes,
 } from 'react-router-dom';
@@ -7,19 +6,23 @@ import {
 import AdminLayout from './components/AdminLayout.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import RoleRoute from './components/RoleRoute.jsx';
 
+import AccessDenied from './pages/AccessDenied.jsx';
 import Courses from './pages/Courses.jsx';
+import Enrollments from './pages/Enrollments.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Teachers from './pages/Teachers.jsx';
-import Enrollments from './pages/Enrollments.jsx';
 import Users from './pages/Users.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 import './App.css';
 
 function App() {
   return (
     <Routes>
+      {/* Rutas públicas */}
       <Route
         path="/login"
         element={<Login />}
@@ -30,44 +33,54 @@ function App() {
         element={<Register />}
       />
 
+      {/* Rutas para usuarios autenticados */}
       <Route element={<ProtectedRoute />}>
-        <Route element={<AdminLayout />}>
-          <Route
-            index
-            element={<Dashboard />}
-          />
+        <Route
+          path="acceso-denegado"
+          element={<AccessDenied />}
+        />
 
-          <Route
-            path="courses"
-            element={<Courses />}
-          />
+        {/* Rutas exclusivas para administradores */}
+        <Route
+          element={
+            <RoleRoute
+              rolesPermitidos={['admin']}
+            />
+          }
+        >
+          <Route element={<AdminLayout />}>
+            <Route
+              index
+              element={<Dashboard />}
+            />
 
-          <Route
-            path="teachers"
-            element={<Teachers />}
-          />
+            <Route
+              path="courses"
+              element={<Courses />}
+            />
 
-          <Route
-            path="enrollments"
-            element={<Enrollments />}
-          />
+            <Route
+              path="teachers"
+              element={<Teachers />}
+            />
 
-          <Route
-            path="users"
-            element={<Users />}
-          />
+            <Route
+              path="enrollments"
+              element={<Enrollments />}
+            />
 
+            <Route
+              path="users"
+              element={<Users />}
+            />
+          </Route>
         </Route>
       </Route>
 
+      {/* Cualquier dirección inexistente */}
       <Route
         path="*"
-        element={
-          <Navigate
-            to="/"
-            replace
-          />
-        }
+        element={<NotFound />}
       />
     </Routes>
   );

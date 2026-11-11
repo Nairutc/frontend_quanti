@@ -50,9 +50,9 @@ export async function iniciarSesion(email, password) {
     }
 
     return data;
-    }
+}
 
-    export async function registrarUsuario(name, email, password) {
+export async function registrarUsuario(name, email, password) {
     const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
@@ -76,44 +76,62 @@ export async function iniciarSesion(email, password) {
     return data;
 }
 
-    export async function obtenerInscripciones(token) {
-    const response = await fetch(
-        `${API_URL}/api/enrollments`,
-        {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        },
-    );
+export async function obtenerInscripciones() {
+    return fetchPrivado('/api/enrollments');
+}
 
-    const data = await response.json();
+export async function obtenerUsuarios() {
+    return fetchPrivado('/api/users');
+}
 
-    if (!response.ok) {
+export async function fetchPrivado(
+    endpoint,
+    options = {},
+    ) {
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
         throw new Error(
-        data.message ||
-        'No se pudieron obtener las inscripciones',
+        'No existe una sesión activa',
         );
     }
 
-    return data;
-}
+    const headers = new Headers(
+        options.headers || {},
+    );
 
-export async function obtenerUsuarios(token) {
+    headers.set(
+        'Authorization',
+        `Bearer ${token}`,
+    );
+
     const response = await fetch(
-        `${API_URL}/api/users`,
+        `${API_URL}${endpoint}`,
         {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        ...options,
+        headers,
         },
     );
 
-    const data = await response.json();
+    const data = await response
+        .json()
+        .catch(() => null);
+
+    if (response.status === 401) {
+        throw new Error(
+        'La sesión es inválida o expiró',
+        );
+    }
+
+    if (response.status === 403) {
+        throw new Error(
+        'No tienes permisos para realizar esta acción',
+        );
+    }
 
     if (!response.ok) {
         throw new Error(
-        data.message ||
-        'No se pudieron obtener los usuarios',
+        data?.message || 'Error del servidor',
         );
     }
 

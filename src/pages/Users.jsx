@@ -3,7 +3,6 @@ import {
     useState,
     } from 'react';
 
-    import { useAuth } from '../context/AuthContext.jsx';
     import { obtenerUsuarios } from '../service/api.js';
 
     import UserTable from '../components/UserTable.jsx';
@@ -14,13 +13,12 @@ import {
     const [cargando, setCargando] =
         useState(true);
 
-    const { token } = useAuth();
 
     useEffect(() => {
         async function cargarUsuarios() {
         try {
             const result =
-            await obtenerUsuarios(token);
+            await obtenerUsuarios();
 
             setUsers(result.data);
         } catch (error) {
@@ -31,7 +29,7 @@ import {
         }
 
         cargarUsuarios();
-    }, [token]);
+    }, []);
 
     return (
         <section

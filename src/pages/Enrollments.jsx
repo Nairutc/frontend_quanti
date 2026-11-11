@@ -3,7 +3,6 @@ import {
     useState,
     } from 'react';
 
-    import { useAuth } from '../context/AuthContext.jsx';
     import { obtenerInscripciones } from '../service/api.js';
 
     import EnrollmentTable from '../components/EnrollmentTable.jsx';
@@ -16,13 +15,11 @@ import {
     const [cargando, setCargando] =
         useState(true);
 
-    const { token } = useAuth();
-
     useEffect(() => {
         async function cargarInscripciones() {
         try {
             const result =
-            await obtenerInscripciones(token);
+            await obtenerInscripciones();
 
             setEnrollments(result.data);
         } catch (error) {
@@ -33,7 +30,7 @@ import {
         }
 
         cargarInscripciones();
-    }, [token]);
+    }, []);
 
     return (
         <section
