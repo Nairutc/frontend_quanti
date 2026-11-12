@@ -3,22 +3,49 @@ import {
     useState,
     } from 'react';
 
-    import { obtenerCursos } from '../service/api.js';
+    import {
+    obtenerCursos,
+    obtenerProfesores,
+    obtenerInscripciones,
+    obtenerUsuarios,
+    } from '../service/api.js';
 
-    import StatCard from './StatCard.jsx';
-    import CourseList from './CourseList.jsx';
-    import EnrollmentTable from './EnrollmentTable.jsx';
+import CourseList from './CourseList.jsx';
+import EnrollmentTable from './EnrollmentTable.jsx';
+import StatCard from './StatCard.jsx';
 
-    function Dashboard() {
+function Dashboard() {
     const [courses, setCourses] = useState([]);
-    const [error, setError] = useState('');
-    const [cargando, setCargando] = useState(true);
+    const [teachers, setTeachers] = useState([]);
+    const [enrollments, setEnrollments] =
+        useState([]);
+    const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        async function cargarCursos() {
+    const [error, setError] = useState('');
+    const [cargando, setCargando] =
+        useState(true);
+
+useEffect(() => {
+        async function cargarDashboard() {
         try {
-            const result = await obtenerCursos();
-            setCourses(result.data);
+            setError('');
+
+            const coursesResult =
+            await obtenerCursos();
+
+            const teachersResult =
+            await obtenerProfesores();
+
+            const enrollmentsResult =
+            await obtenerInscripciones();
+
+            const usersResult =
+            await obtenerUsuarios();
+
+            setCourses(coursesResult.data);
+            setTeachers(teachersResult.data);
+            setEnrollments(enrollmentsResult.data);
+            setUsers(usersResult.data);
         } catch (error) {
             setError(error.message);
         } finally {
@@ -26,20 +53,24 @@ import {
         }
         }
 
-        cargarCursos();
+        cargarDashboard();
     }, []);
+
+    const students = users.filter(
+        (user) => user.role === 'student',
+    );
 
     const stats = [
         {
         id: 1,
         title: 'Estudiantes',
-        value: 24,
+        value: students.length,
         description: 'Estudiantes activos',
         },
         {
         id: 2,
         title: 'Profesores',
-        value: 6,
+        value: teachers.length,
         description: 'Profesores registrados',
         },
         {
@@ -51,31 +82,41 @@ import {
         {
         id: 4,
         title: 'Inscripciones',
-        value: 31,
+        value: enrollments.length,
         description: 'Inscripciones registradas',
         },
     ];
 
-    const enrollments = [
-        {
-        id: 1,
-        student: 'Ana Martínez',
-        course: 'React desde cero',
-        status: 'pendiente',
-        },
-        {
-        id: 2,
-        student: 'Luis Herrera',
-        course: 'Node.js y APIs',
-        status: 'confirmada',
-        },
-        {
-        id: 3,
-        student: 'Sofía Ramírez',
-        course: 'Diseño UX/UI',
-        status: 'cancelada',
-        },
-    ];
+    const recentCourses = courses.slice(0, 3);
+
+    const recentEnrollments =
+        enrollments.slice(0, 5);
+
+    if (cargando) {
+        return (
+        <section aria-live="polite">
+            <h2>Cargando panel administrativo...</h2>
+
+            <p>
+            Estamos consultando los datos de la
+            academia.
+            </p>
+        </section>
+        );
+    }
+
+    if (error) {
+        return (
+        <section
+            className="form-error"
+            role="alert"
+        >
+            <h2>No se pudo cargar el dashboard</h2>
+
+            <p>{error}</p>
+        </section>
+        );
+    }
 
     return (
         <>
@@ -108,21 +149,14 @@ import {
             Cursos recientes
             </h2>
 
-            {cargando && (
-            <p>Cargando cursos...</p>
-            )}
-
-            {error && (
-            <p
-                className="form-error"
-                role="alert"
-            >
-                {error}
+            {recentCourses.length > 0 ? (
+            <CourseList
+                courses={recentCourses}
+            />
+            ) : (
+            <p>
+                Todavía no hay cursos registrados.
             </p>
-            )}
-
-            {!cargando && !error && (
-            <CourseList courses={courses} />
             )}
         </section>
 
@@ -134,9 +168,16 @@ import {
             Inscripciones recientes
             </h2>
 
+            {recentEnrollments.length > 0 ? (
             <EnrollmentTable
-            enrollments={enrollments}
+                enrollments={recentEnrollments}
             />
+            ) : (
+            <p>
+                Todavía no hay inscripciones
+                registradas.
+            </p>
+            )}
         </section>
         </>
     );

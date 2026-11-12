@@ -22,12 +22,22 @@ function Login() {
         setCargando(true);
 
         try {
-        await login(email, password);
-        navigate('/');
+            const authenticatedUser =
+            await login(email, password);
+
+            if (authenticatedUser.role === 'admin') {
+            navigate('/');
+            } else if (
+            authenticatedUser.role === 'teacher'
+            ) {
+            navigate('/teacher');
+            } else {
+            navigate('/student');
+            }
         } catch (error) {
-        setError(error.message);
+            setError(error.message);
         } finally {
-        setCargando(false);
+            setCargando(false);
         }
     }
 

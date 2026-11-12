@@ -1,32 +1,22 @@
 import CourseCard from './CourseCard.jsx';
 
-function CourseList({ courses }) {
-    if (courses.length === 0) {
-        return (
-        <p>
-            No hay cursos disponibles.
-        </p>
-        );
-    }
-
+function CourseList({
+    courses,
+    onEdit,
+    onDelete,
+    }) {
     return (
         <ul className="course-list">
         {courses.map((course) => (
             <li key={course._id}>
             <CourseCard
-                name={course.name}
-                description={course.description}
-                duration={course.duration}
-                modality={course.modality}
-                price={course.price}
-                teacher={
-                course.teacher?.name ??
-                'Profesor no asignado'
-                }
+                course={course}
+                onEdit={onEdit}
+                onDelete={onDelete}
             />
             </li>
         ))}
-        </ul>
+    </ul>
     );
 }
 

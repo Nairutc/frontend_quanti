@@ -12,10 +12,12 @@ import AccessDenied from './pages/AccessDenied.jsx';
 import Courses from './pages/Courses.jsx';
 import Enrollments from './pages/Enrollments.jsx';
 import Login from './pages/Login.jsx';
+import NotFound from './pages/NotFound.jsx';
 import Register from './pages/Register.jsx';
+import StudentPanel from './pages/StudentPanel.jsx';
+import TeacherPanel from './pages/TeacherPanel.jsx';
 import Teachers from './pages/Teachers.jsx';
 import Users from './pages/Users.jsx';
-import NotFound from './pages/NotFound.jsx';
 
 import './App.css';
 
@@ -40,7 +42,7 @@ function App() {
           element={<AccessDenied />}
         />
 
-        {/* Rutas exclusivas para administradores */}
+        {/* Rutas del administrador */}
         <Route
           element={
             <RoleRoute
@@ -74,6 +76,34 @@ function App() {
               element={<Users />}
             />
           </Route>
+        </Route>
+
+        {/* Ruta del profesor */}
+        <Route
+          element={
+            <RoleRoute
+              rolesPermitidos={['teacher']}
+            />
+          }
+        >
+          <Route
+            path="teacher"
+            element={<TeacherPanel />}
+          />
+        </Route>
+
+        {/* Ruta del estudiante */}
+        <Route
+          element={
+            <RoleRoute
+              rolesPermitidos={['student']}
+            />
+          }
+        >
+          <Route
+            path="student"
+            element={<StudentPanel />}
+          />
         </Route>
       </Route>
 

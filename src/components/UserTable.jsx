@@ -1,62 +1,133 @@
-function UserTable({ users }) {
-    if (users.length === 0) {
-        return (
-        <p>
-            No hay usuarios registrados.
-        </p>
-        );
-    }
-
+function UserTable({
+  users,
+  currentUserId,
+  onEdit,
+  onDelete,
+}) {
+  if (users.length === 0) {
     return (
-        <div className="table-container">
-        <table className="user-table">
-            <caption>
-            Usuarios registrados
-            </caption>
+      <p>
+        No hay usuarios registrados.
+      </p>
+    );
+  }
 
-            <thead>
-            <tr>
-                <th scope="col">
-                Nombre
-                </th>
+  const showActions =
+    Boolean(onEdit) || Boolean(onDelete);
 
-                <th scope="col">
-                Correo
-                </th>
+  return (
+    <div className="table-container">
+      <table className="user-table">
+        <caption>
+          Usuarios registrados
+        </caption>
 
-                <th scope="col">
-                Rol
-                </th>
+        <thead>
+          <tr>
+            <th scope="col">
+              Nombre
+            </th>
 
-                <th scope="col">
-                Estado
-                </th>
-            </tr>
-            </thead>
+            <th scope="col">
+              Correo
+            </th>
 
-            <tbody>
-            {users.map((user) => (
-                <tr key={user._id}>
-                <td>{user.name}</td>
+            <th scope="col">
+              Rol
+            </th>
+
+            <th scope="col">
+              Estado
+            </th>
+
+            {showActions && (
+              <th scope="col">
+                Acciones
+              </th>
+            )}
+          </tr>
+        </thead>
+
+        <tbody>
+          {users.map((user) => {
+            const isCurrentUser =
+              user._id === currentUserId;
+
+            return (
+              <tr key={user._id}>
+                <td>
+                  {user.name}
+
+                  {isCurrentUser && (
+                    <strong>
+                      {' '}(Tu cuenta)
+                    </strong>
+                  )}
+                </td>
+
                 <td>{user.email}</td>
 
                 <td>
-                    <span className="user-role">
+                  <span className="user-role">
                     {user.role}
-                    </span>
+                  </span>
                 </td>
 
                 <td>
+                  <span
+                    className={
+                      user.active
+                        ? 'status status--confirmada'
+                        : 'status status--cancelada'
+                    }
+                  >
                     {user.active
-                    ? 'Activo'
-                    : 'Inactivo'}
+                      ? 'Activo'
+                      : 'Inactivo'}
+                  </span>
                 </td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
-        </div>
-    );
+
+                {showActions && (
+                  <td>
+                    <div className="table-actions">
+                      {onEdit && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            onEdit(user)
+                          }
+                        >
+                          Editar
+                        </button>
+                      )}
+
+                      {onDelete && (
+                        <button
+                          type="button"
+                          className="button-danger"
+                          disabled={isCurrentUser}
+                          title={
+                            isCurrentUser
+                              ? 'No puedes eliminar tu propia cuenta'
+                              : 'Eliminar usuario'
+                          }
+                          onClick={() =>
+                            onDelete(user)
+                          }
+                        >
+                          Eliminar
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                )}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export default UserTable;

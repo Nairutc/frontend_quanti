@@ -87,6 +87,8 @@ import {
         );
 
         setSesion(nuevaSesion);
+
+        return nuevaSesion.user;
     }
 
     function logout() {

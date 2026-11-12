@@ -1,29 +1,51 @@
 function TeacherCard({
-    name,
-    email,
-    specialty,
-    }) {
-    return (
-        <article className="teacher-card">
-        <h3>{name}</h3>
+  teacher,
+  onEdit,
+  onDelete,
+}) {
+  const showActions =
+    Boolean(onEdit) || Boolean(onDelete);
 
-        <dl>
-            <div>
-            <dt>Especialidad</dt>
-            <dd>{specialty}</dd>
-            </div>
+  return (
+    <article className="teacher-card">
+      <h3>{teacher.name}</h3>
 
-            <div>
-            <dt>Correo</dt>
-            <dd>
-                <a href={`mailto:${email}`}>
-                {email}
-                </a>
-            </dd>
-            </div>
-        </dl>
-        </article>
-    );
+      <dl>
+        <div>
+          <dt>Correo</dt>
+          <dd>{teacher.email}</dd>
+        </div>
+
+        <div>
+          <dt>Especialidad</dt>
+          <dd>{teacher.specialty}</dd>
+        </div>
+      </dl>
+
+      {showActions && (
+        <div className="card-actions">
+          {onEdit && (
+            <button
+              type="button"
+              onClick={() => onEdit(teacher)}
+            >
+              Editar
+            </button>
+          )}
+
+          {onDelete && (
+            <button
+              type="button"
+              className="button-danger"
+              onClick={() => onDelete(teacher)}
+            >
+              Eliminar
+            </button>
+          )}
+        </div>
+      )}
+    </article>
+  );
 }
 
 export default TeacherCard;

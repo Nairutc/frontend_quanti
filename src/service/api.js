@@ -84,6 +84,151 @@ export async function obtenerUsuarios() {
     return fetchPrivado('/api/users');
 }
 
+export async function crearCurso(course) {
+    return fetchPrivado('/api/courses', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(course),
+    });
+}
+
+export async function actualizarCurso(
+    id,
+    course,
+    ) {
+    return fetchPrivado(
+        `/api/courses/${id}`,
+        {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(course),
+        },
+    );
+}
+
+export async function eliminarCurso(id) {
+    return fetchPrivado(
+        `/api/courses/${id}`,
+        {
+        method: 'DELETE',
+        },
+    );
+}
+
+export async function crearProfesor(teacher) {
+    return fetchPrivado('/api/teachers', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(teacher),
+    });
+    }
+
+    export async function actualizarProfesor(
+    id,
+    teacher,
+    ) {
+    return fetchPrivado(
+        `/api/teachers/${id}`,
+        {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(teacher),
+        },
+    );
+    }
+
+export async function eliminarProfesor(id) {
+    return fetchPrivado(
+        `/api/teachers/${id}`,
+        {
+        method: 'DELETE',
+        },
+    );
+}
+
+export async function crearInscripcion(
+  enrollment,
+) {
+  return fetchPrivado(
+    '/api/enrollments',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(enrollment),
+    },
+  );
+}
+
+export async function actualizarInscripcion(
+  id,
+  enrollment,
+) {
+  return fetchPrivado(
+    `/api/enrollments/${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(enrollment),
+    },
+  );
+}
+
+export async function eliminarInscripcion(id) {
+  return fetchPrivado(
+    `/api/enrollments/${id}`,
+    {
+      method: 'DELETE',
+    },
+  );
+}
+
+export async function crearUsuario(user) {
+  return fetchPrivado('/api/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+  });
+}
+
+export async function actualizarUsuario(
+  id,
+  user,
+) {
+  return fetchPrivado(
+    `/api/users/${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    },
+  );
+}
+
+export async function eliminarUsuario(id) {
+  return fetchPrivado(
+    `/api/users/${id}`,
+    {
+      method: 'DELETE',
+    },
+  );
+}
+
 export async function fetchPrivado(
     endpoint,
     options = {},
