@@ -70,7 +70,7 @@ function EnrollmentForm({
 
   return (
     <form
-      className="enrollment-form"
+      className="card border-0 shadow-sm p-4 mb-4 enrollment-form"
       onSubmit={handleSubmit}
     >
       <h3>
@@ -79,12 +79,13 @@ function EnrollmentForm({
           : 'Registrar inscripción'}
       </h3>
 
-      <div className="form-group">
-        <label htmlFor="student-name">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="student-name">
           Nombre del estudiante
         </label>
 
         <input
+          className="form-control"
           id="student-name"
           name="studentName"
           type="text"
@@ -96,12 +97,13 @@ function EnrollmentForm({
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="student-email">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="student-email">
           Correo del estudiante
         </label>
 
         <input
+          className="form-control"
           id="student-email"
           name="studentEmail"
           type="email"
@@ -111,12 +113,13 @@ function EnrollmentForm({
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="enrollment-course">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="enrollment-course">
           Curso
         </label>
 
         <select
+          className="form-select"
           id="enrollment-course"
           name="course"
           value={enrollment.course}
@@ -138,12 +141,13 @@ function EnrollmentForm({
         </select>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="enrollment-status">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="enrollment-status">
           Estado
         </label>
 
         <select
+          className="form-select"
           id="enrollment-status"
           name="status"
           value={enrollment.status}
@@ -164,8 +168,9 @@ function EnrollmentForm({
         </select>
       </div>
 
-      <div className="form-actions">
+      <div className="d-flex flex-wrap gap-2">
         <button
+          className="btn btn-quanti"
           type="submit"
           disabled={saving}
         >
@@ -178,6 +183,7 @@ function EnrollmentForm({
 
         {enrollmentToEdit && (
           <button
+            className="btn btn-outline-secondary"
             type="button"
             onClick={onCancel}
             disabled={saving}

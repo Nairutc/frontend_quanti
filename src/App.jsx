@@ -18,6 +18,7 @@ import StudentPanel from './pages/StudentPanel.jsx';
 import TeacherPanel from './pages/TeacherPanel.jsx';
 import Teachers from './pages/Teachers.jsx';
 import Users from './pages/Users.jsx';
+import Profile from './pages/Profile.jsx';
 
 import './App.css';
 
@@ -40,6 +41,11 @@ function App() {
         <Route
           path="acceso-denegado"
           element={<AccessDenied />}
+        />
+
+        <Route
+          path="profile"
+          element={<Profile />}
         />
 
         {/* Rutas del administrador */}

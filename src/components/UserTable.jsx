@@ -16,9 +16,9 @@ function UserTable({
     Boolean(onEdit) || Boolean(onDelete);
 
   return (
-    <div className="table-container">
-      <table className="user-table">
-        <caption>
+    <div className="table-container table-responsive shadow-sm">
+      <table className="table table-hover align-middle mb-0 user-table">
+        <caption className="caption-top">
           Usuarios registrados
         </caption>
 
@@ -68,7 +68,7 @@ function UserTable({
                 <td>{user.email}</td>
 
                 <td>
-                  <span className="user-role">
+                  <span className={`user-role user-role--${user.role}`}>
                     {user.role}
                   </span>
                 </td>
@@ -93,6 +93,7 @@ function UserTable({
                       {onEdit && (
                         <button
                           type="button"
+                          className="btn btn-sm btn-outline-quanti"
                           onClick={() =>
                             onEdit(user)
                           }
@@ -104,7 +105,7 @@ function UserTable({
                       {onDelete && (
                         <button
                           type="button"
-                          className="button-danger"
+                          className="btn btn-sm btn-outline-danger"
                           disabled={isCurrentUser}
                           title={
                             isCurrentUser

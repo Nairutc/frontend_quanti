@@ -15,9 +15,9 @@ function EnrollmentTable({
     Boolean(onEdit) || Boolean(onDelete);
 
   return (
-    <div className="table-container">
-      <table className="enrollment-table">
-        <caption>
+    <div className="table-container table-responsive shadow-sm">
+      <table className="table table-hover align-middle mb-0 enrollment-table">
+        <caption className="caption-top">
           Inscripciones registradas
         </caption>
 
@@ -80,6 +80,7 @@ function EnrollmentTable({
                       {onEdit && (
                         <button
                           type="button"
+                          className="btn btn-sm btn-outline-quanti"
                           onClick={() =>
                             onEdit(enrollment)
                           }
@@ -91,7 +92,7 @@ function EnrollmentTable({
                       {onDelete && (
                         <button
                           type="button"
-                          className="button-danger"
+                          className="btn btn-sm btn-outline-danger"
                           onClick={() =>
                             onDelete(enrollment)
                           }

@@ -229,6 +229,59 @@ export async function eliminarUsuario(id) {
   );
 }
 
+export async function obtenerPerfil() {
+    return fetchPrivado(
+        '/api/users/profile',
+    );
+}
+
+export async function actualizarPerfil(
+    profileData,
+) {
+    return fetchPrivado(
+        '/api/users/profile',
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type':
+                    'application/json',
+            },
+            body: JSON.stringify(
+                profileData,
+            ),
+        },
+    );
+}
+
+export async function subirImagenPerfil(
+    imageFile,
+) {
+    const formData = new FormData();
+
+    formData.append(
+        'profileImage',
+        imageFile,
+    );
+
+    return fetchPrivado(
+        '/api/users/profile-image',
+        {
+            method: 'POST',
+            body: formData,
+        },
+    );
+}
+
+export function obtenerUrlImagen(
+    imagePath,
+) {
+    if (!imagePath) {
+        return null;
+    }
+
+    return `${API_URL}${imagePath}`;
+}
+
 export async function fetchPrivado(
     endpoint,
     options = {},

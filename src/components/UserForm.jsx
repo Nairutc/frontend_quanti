@@ -78,7 +78,7 @@ function UserForm({
 
   return (
     <form
-      className="user-form"
+      className="card border-0 shadow-sm p-4 mb-4 user-form"
       onSubmit={handleSubmit}
     >
       <h3>
@@ -87,12 +87,13 @@ function UserForm({
           : 'Registrar usuario'}
       </h3>
 
-      <div className="form-group">
-        <label htmlFor="user-name">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="user-name">
           Nombre
         </label>
 
         <input
+          className="form-control"
           id="user-name"
           name="name"
           type="text"
@@ -104,12 +105,13 @@ function UserForm({
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="user-email">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="user-email">
           Correo electrónico
         </label>
 
         <input
+          className="form-control"
           id="user-email"
           name="email"
           type="email"
@@ -119,14 +121,15 @@ function UserForm({
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="user-password">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="user-password">
           {userToEdit
             ? 'Nueva contraseña'
             : 'Contraseña'}
         </label>
 
         <input
+          className="form-control"
           id="user-password"
           name="password"
           type="password"
@@ -137,19 +140,20 @@ function UserForm({
         />
 
         {userToEdit && (
-          <small>
+          <small className="form-text text-muted">
             Déjala vacía para conservar la
             contraseña actual.
           </small>
         )}
       </div>
 
-      <div className="form-group">
-        <label htmlFor="user-role">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="user-role">
           Rol
         </label>
 
         <select
+          className="form-select"
           id="user-role"
           name="role"
           value={user.role}
@@ -170,8 +174,9 @@ function UserForm({
         </select>
       </div>
 
-      <div className="form-check">
+      <div className="form-check mb-3">
         <input
+          className="form-check-input"
           id="user-active"
           name="active"
           type="checkbox"
@@ -179,13 +184,14 @@ function UserForm({
           onChange={handleChange}
         />
 
-        <label htmlFor="user-active">
+        <label className="form-check-label" htmlFor="user-active">
           Usuario activo
         </label>
       </div>
 
-      <div className="form-actions">
+      <div className="d-flex flex-wrap gap-2">
         <button
+          className="btn btn-quanti"
           type="submit"
           disabled={saving}
         >
@@ -198,6 +204,7 @@ function UserForm({
 
         {userToEdit && (
           <button
+            className="btn btn-outline-secondary"
             type="button"
             onClick={onCancel}
             disabled={saving}

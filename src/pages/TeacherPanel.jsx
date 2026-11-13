@@ -1,4 +1,5 @@
 import { useAuth } from '../context/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 
 function TeacherPanel() {
   const { user, logout } = useAuth();
@@ -16,12 +17,21 @@ function TeacherPanel() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={logout}
-        >
-          Cerrar sesión
-        </button>
+        <div className="d-flex flex-wrap gap-2">
+          <Link
+              className="btn btn-light"
+              to="/profile"
+          >
+              Mi perfil
+          </Link>
+
+          <button
+              type="button"
+              onClick={logout}
+          >
+              Cerrar sesión
+          </button>
+        </div>
       </header>
 
       <section

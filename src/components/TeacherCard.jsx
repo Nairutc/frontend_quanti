@@ -27,6 +27,7 @@ function TeacherCard({
           {onEdit && (
             <button
               type="button"
+              className="btn btn-sm btn-outline-quanti"
               onClick={() => onEdit(teacher)}
             >
               Editar
@@ -36,7 +37,7 @@ function TeacherCard({
           {onDelete && (
             <button
               type="button"
-              className="button-danger"
+              className="btn btn-sm btn-outline-danger"
               onClick={() => onDelete(teacher)}
             >
               Eliminar

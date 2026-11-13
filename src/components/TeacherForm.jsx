@@ -58,8 +58,8 @@ import {
     }
 
     return (
-        <form
-        className="teacher-form"
+    <form
+      className="card border-0 shadow-sm p-4 mb-4 teacher-form"
         onSubmit={handleSubmit}
         >
         <h3>
@@ -68,12 +68,13 @@ import {
             : 'Registrar profesor'}
         </h3>
 
-        <div className="form-group">
-            <label htmlFor="teacher-name">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="teacher-name">
             Nombre
             </label>
 
-            <input
+        <input
+          className="form-control"
             id="teacher-name"
             name="name"
             type="text"
@@ -85,12 +86,13 @@ import {
             />
         </div>
 
-        <div className="form-group">
-            <label htmlFor="teacher-email">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="teacher-email">
             Correo electrónico
             </label>
 
-            <input
+        <input
+          className="form-control"
             id="teacher-email"
             name="email"
             type="email"
@@ -100,12 +102,13 @@ import {
             />
         </div>
 
-        <div className="form-group">
-            <label htmlFor="teacher-specialty">
+      <div className="mb-3">
+        <label className="form-label fw-semibold" htmlFor="teacher-specialty">
             Especialidad
             </label>
 
-            <input
+        <input
+          className="form-control"
             id="teacher-specialty"
             name="specialty"
             type="text"
@@ -116,8 +119,9 @@ import {
             />
         </div>
 
-        <div className="form-actions">
-            <button
+      <div className="d-flex flex-wrap gap-2">
+        <button
+          className="btn btn-quanti"
             type="submit"
             disabled={saving}
             >
@@ -129,7 +133,8 @@ import {
             </button>
 
             {teacherToEdit && (
-            <button
+          <button
+            className="btn btn-outline-secondary"
                 type="button"
                 onClick={onCancel}
                 disabled={saving}

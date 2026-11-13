@@ -13,11 +13,12 @@ function Header({
 
         <div className="user-session">
             <p className="current-user">
-            Usuario: <strong>{userName}</strong>
+            Usuario: <strong className="user-badge">{userName}</strong>
             </p>
 
             <button
             type="button"
+            className="btn btn-sm btn-outline-quanti"
             onClick={onLogout}
             >
             Cerrar sesión

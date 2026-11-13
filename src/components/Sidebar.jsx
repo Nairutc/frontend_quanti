@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function Sidebar() {
     const menuItems = [
@@ -27,6 +27,11 @@ function Sidebar() {
         label: 'Usuarios',
         path: '/users',
         },
+        {
+            id: 'profile',
+            label: 'Mi perfil',
+            path: '/profile',
+        },
     ];
 
     return (
@@ -42,9 +47,12 @@ function Sidebar() {
             <ul>
             {menuItems.map((item) => (
                 <li key={item.id}>
-                <Link to={item.path}>
+                <NavLink
+                    to={item.path}
+                    end={item.path === '/'}
+                >
                     {item.label}
-                </Link>
+                </NavLink>
                 </li>
             ))}
             </ul>

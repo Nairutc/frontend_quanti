@@ -2,18 +2,21 @@ import {
     createContext,
     useContext,
     useState,
-    } from 'react';
+} from 'react';
 
-    import { jwtDecode } from 'jwt-decode';
-    import { iniciarSesion } from '../service/api.js';
+import { jwtDecode } from 'jwt-decode';
 
-    const AuthContext = createContext(null);
+import {
+    iniciarSesion,
+} from '../service/api.js';
 
-    function obtenerSesion(token) {
+const AuthContext = createContext(null);
+
+function obtenerSesion(token) {
     if (!token) {
         return {
-        token: null,
-        user: null,
+            token: null,
+            user: null,
         };
     }
 
@@ -21,69 +24,83 @@ import {
         const payload = jwtDecode(token);
 
         if (
-        !payload.exp ||
-        payload.exp * 1000 <= Date.now()
+            !payload.exp ||
+            payload.exp * 1000 <= Date.now()
         ) {
-        return {
-            token: null,
-            user: null,
-        };
+            return {
+                token: null,
+                user: null,
+            };
         }
 
         const user = {
-        id: payload._id,
-        name: payload.name,
-        role: payload.role,
+            id: payload._id,
+            name: payload.name,
+            role: payload.role,
         };
 
         return {
-        token,
-        user,
+            token,
+            user,
         };
     } catch (error) {
         console.error(error);
 
         return {
-        token: null,
-        user: null,
+            token: null,
+            user: null,
         };
     }
-    }
+}
 
-    function restaurarSesion() {
-    const token = sessionStorage.getItem('token');
+function restaurarSesion() {
+    const token =
+        sessionStorage.getItem('token');
+
     const sesion = obtenerSesion(token);
 
     if (!sesion.token) {
-        sessionStorage.removeItem('token');
+        sessionStorage.removeItem(
+            'token',
+        );
     }
 
     return sesion;
-    }
+}
 
-    export function AuthProvider({ children }) {
-    const [sesion, setSesion] = useState(restaurarSesion);
+export function AuthProvider({
+    children,
+}) {
+    const [sesion, setSesion] =
+        useState(restaurarSesion);
 
-    async function login(email, password) {
-        const data = await iniciarSesion(email, password);
+    async function login(
+        email,
+        password,
+    ) {
+        const data = await iniciarSesion(
+            email,
+            password,
+        );
 
         if (!data.token) {
-        throw new Error(
-            'La API no devolvió el token',
-        );
+            throw new Error(
+                'La API no devolvió el token',
+            );
         }
 
-        const nuevaSesion = obtenerSesion(data.token);
+        const nuevaSesion =
+            obtenerSesion(data.token);
 
         if (!nuevaSesion.token) {
-        throw new Error(
-            'El token es inválido o está vencido',
-        );
+            throw new Error(
+                'El token es inválido o está vencido',
+            );
         }
 
         sessionStorage.setItem(
-        'token',
-        nuevaSesion.token,
+            'token',
+            nuevaSesion.token,
         );
 
         setSesion(nuevaSesion);
@@ -91,32 +108,51 @@ import {
         return nuevaSesion.user;
     }
 
+    function updateUser(userData) {
+        setSesion(
+            (currentSession) => ({
+                ...currentSession,
+                user: {
+                    ...currentSession.user,
+                    name: userData.name,
+                    email: userData.email,
+                    profileImage:
+                        userData.profileImage,
+                },
+            }),
+        );
+    }
+
     function logout() {
-        sessionStorage.removeItem('token');
+        sessionStorage.removeItem(
+            'token',
+        );
 
         setSesion({
-        token: null,
-        user: null,
+            token: null,
+            user: null,
         });
     }
 
     return (
         <AuthContext.Provider
-        value={{
-            token: sesion.token,
-            user: sesion.user,
-            autenticado: Boolean(
-            sesion.token && sesion.user,
-            ),
-            login,
-            logout,
-        }}
+            value={{
+                token: sesion.token,
+                user: sesion.user,
+                autenticado: Boolean(
+                    sesion.token &&
+                    sesion.user,
+                ),
+                login,
+                logout,
+                updateUser,
+            }}
         >
-        {children}
+            {children}
         </AuthContext.Provider>
     );
-    }
+}
 
-    export function useAuth() {
+export function useAuth() {
     return useContext(AuthContext);
 }
