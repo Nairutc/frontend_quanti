@@ -5,7 +5,6 @@ import {
 
 import {
   actualizarProfesor,
-  crearProfesor,
   eliminarProfesor,
   obtenerProfesores,
 } from '../service/api.js';
@@ -54,40 +53,28 @@ function Teachers() {
     setSaving(true);
 
     try {
-      if (teacherToEdit) {
-        const result =
-          await actualizarProfesor(
-            teacherToEdit._id,
-            teacherData,
-          );
-
-        setTeachers(
-          teachers.map((teacher) =>
-            teacher._id === teacherToEdit._id
-              ? result.data
-              : teacher,
-          ),
-        );
-
-        setTeacherToEdit(null);
-
-        setSuccess(
-          'Profesor actualizado correctamente',
-        );
-
-        return true;
+      if (!teacherToEdit) {
+        return false;
       }
 
       const result =
-        await crearProfesor(teacherData);
+        await actualizarProfesor(
+          teacherToEdit._id,
+          teacherData,
+        );
 
-      setTeachers([
-        result.data,
-        ...teachers,
-      ]);
+      setTeachers(
+        teachers.map((teacher) =>
+          teacher._id === teacherToEdit._id
+            ? result.data
+            : teacher,
+        ),
+      );
+
+      setTeacherToEdit(null);
 
       setSuccess(
-        'Profesor registrado correctamente',
+        'Profesor actualizado correctamente',
       );
 
       return true;
@@ -161,8 +148,8 @@ function Teachers() {
       </h2>
 
       <p>
-        Registra, consulta, edita y elimina
-        los profesores de Academia Quanti.
+        Consulta y actualiza la información
+        académica de los profesores de Quanti.
       </p>
 
       {success && (
@@ -183,12 +170,14 @@ function Teachers() {
         </p>
       )}
 
-      <TeacherForm
-        teacherToEdit={teacherToEdit}
-        onSave={guardarProfesor}
-        onCancel={cancelarEdicion}
-        saving={saving}
-      />
+      {teacherToEdit && (
+        <TeacherForm
+          teacherToEdit={teacherToEdit}
+          onSave={guardarProfesor}
+          onCancel={cancelarEdicion}
+          saving={saving}
+        />
+      )}
 
       <hr />
 
