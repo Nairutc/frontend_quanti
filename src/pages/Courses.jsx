@@ -226,6 +226,7 @@ import {
                 courses={courses}
                 onEdit={seleccionarCurso}
                 onDelete={borrarCurso}
+                headingLevel={4}
                 />
             ) : (
                 <p>

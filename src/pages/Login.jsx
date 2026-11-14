@@ -42,14 +42,15 @@ function Login() {
     }
 
     return (
+        <main className="auth-page">
         <section
         className="auth-page"
         aria-labelledby="login-title"
         >
         <div className="auth-card">
-            <h2 id="login-title">
+            <h1 id="login-title">
             Iniciar sesión
-            </h2>
+            </h1>
 
             <p>
             Ingresa tus credenciales para acceder
@@ -121,6 +122,7 @@ function Login() {
             )}
         </div>
         </section>
+        </main>
     );
 }
 

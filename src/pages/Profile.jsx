@@ -189,13 +189,13 @@ function Profile() {
                         aria-labelledby="profile-summary-title"
                     >
                         <div>
-                            <p
-                                id="profile-summary-title"
-                            >
+                            <p>
                                 Cuenta actual
                             </p>
 
-                            <h2>{profile.name}</h2>
+                            <h2 id="profile-summary-title">
+                                {profile.name}
+                            </h2>
 
                             <p>{profile.email}</p>
                         </div>

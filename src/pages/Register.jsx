@@ -73,14 +73,15 @@ function Register() {
     }
 
     return (
+        <main className="auth-page">
         <section
         className="auth-page"
         aria-labelledby="register-title"
         >
         <div className="auth-card">
-            <h2 id="register-title">
+            <h1 id="register-title">
             Crear una cuenta
-            </h2>
+            </h1>
 
             <p>
             Completa tus datos para registrarte
@@ -181,6 +182,7 @@ function Register() {
             )}
         </div>
         </section>
+        </main>
     );
 }
 

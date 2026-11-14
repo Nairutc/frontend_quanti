@@ -4,6 +4,7 @@ function CourseList({
     courses,
     onEdit,
     onDelete,
+    headingLevel = 3,
     }) {
     return (
         <ul className="course-list">
@@ -13,6 +14,7 @@ function CourseList({
                 course={course}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                headingLevel={headingLevel}
             />
             </li>
         ))}

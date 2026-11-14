@@ -8,7 +8,7 @@ function TeacherCard({
 
   return (
     <article className="teacher-card">
-      <h3>{teacher.name}</h3>
+      <h4>{teacher.name}</h4>
 
       <dl>
         <div>

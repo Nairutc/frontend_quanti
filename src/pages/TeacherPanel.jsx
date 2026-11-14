@@ -1,8 +1,35 @@
+import {
+  useEffect,
+  useState,
+} from 'react';
+
 import { useAuth } from '../context/AuthContext.jsx';
 import { Link } from 'react-router-dom';
+import { obtenerMisCursosProfesor } from '../service/api.js';
 
 function TeacherPanel() {
   const { user, logout } = useAuth();
+
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function cargarCursos() {
+      try {
+        const result =
+          await obtenerMisCursosProfesor();
+
+        setCourses(result.data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    cargarCursos();
+  }, []);
 
   return (
     <main className="role-panel">
@@ -61,11 +88,39 @@ function TeacherPanel() {
           Mis cursos
         </h2>
 
-        <p>
-          Desde esta sección el profesor podrá
-          consultar los cursos que tiene
-          asignados.
-        </p>
+        {loading ? (
+          <p>Cargando cursos...</p>
+        ) : error ? (
+          <p className="form-error" role="alert">
+            {error}
+          </p>
+        ) : courses.length > 0 ? (
+          <ul className="course-list">
+            {courses.map((course) => (
+              <li key={course._id}>
+                <article className="course-card">
+                  <h3>{course.name}</h3>
+
+                  <p>{course.description}</p>
+
+                  <dl>
+                    <div>
+                      <dt>Duración</dt>
+                      <dd>{course.duration}</dd>
+                    </div>
+
+                    <div>
+                      <dt>Modalidad</dt>
+                      <dd>{course.modality}</dd>
+                    </div>
+                  </dl>
+                </article>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No tienes cursos asignados.</p>
+        )}
       </section>
     </main>
   );

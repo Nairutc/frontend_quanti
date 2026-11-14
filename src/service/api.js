@@ -24,6 +24,10 @@ export async function obtenerProfesores() {
     return data;
 }
 
+export async function obtenerMisCursosProfesor() {
+    return fetchPrivado('/api/teachers/my/courses');
+}
+
 export async function iniciarSesion(email, password) {
     const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',

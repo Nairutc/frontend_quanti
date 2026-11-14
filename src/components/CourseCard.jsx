@@ -2,6 +2,7 @@ function CourseCard({
     course,
     onEdit,
     onDelete,
+    headingLevel = 3,
     }) {
     const teacherName =
         course.teacher?.name ||
@@ -12,7 +13,11 @@ function CourseCard({
 
     return (
         <article className="course-card">
-        <h3>{course.name}</h3>
+        {headingLevel === 4 ? (
+            <h4>{course.name}</h4>
+        ) : (
+            <h3>{course.name}</h3>
+        )}
 
         <p>{course.description}</p>
 
