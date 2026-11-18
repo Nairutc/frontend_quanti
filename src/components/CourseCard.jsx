@@ -48,7 +48,7 @@ function CourseCard({
             {onEdit && (
                 <button
                 type="button"
-              className="btn btn-sm btn-outline-quanti"
+                className="btn btn-sm btn-outline-quanti"
                 onClick={() => onEdit(course)}
                 >
                 Editar
@@ -58,7 +58,7 @@ function CourseCard({
             {onDelete && (
                 <button
                 type="button"
-              className="btn btn-sm btn-outline-danger"
+                className="btn btn-sm btn-outline-danger"
                 onClick={() => onDelete(course)}
                 >
                 Eliminar

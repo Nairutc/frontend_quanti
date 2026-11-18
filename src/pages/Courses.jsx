@@ -16,8 +16,7 @@ import {
 
     function Courses() {
     const [courses, setCourses] = useState([]);
-    const [teachers, setTeachers] =
-        useState([]);
+    const [teachers, setTeachers] = useState([]);
 
     const [courseToEdit, setCourseToEdit] =
         useState(null);

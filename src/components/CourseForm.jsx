@@ -68,7 +68,7 @@ async function handleSubmit(event) {
 
     return (
     <form
-      className="card border-0 shadow-sm p-4 mb-4 course-form"
+        className="card border-0 shadow-sm p-4 mb-4 course-form"
         onSubmit={handleSubmit}
         >
         <h3>
@@ -77,13 +77,13 @@ async function handleSubmit(event) {
             : 'Registrar curso'}
         </h3>
 
-      <div className="mb-3">
+        <div className="mb-3">
         <label className="form-label fw-semibold" htmlFor="course-name">
             Nombre
             </label>
 
         <input
-          className="form-control"
+            className="form-control"
             id="course-name"
             name="name"
             type="text"
@@ -95,13 +95,13 @@ async function handleSubmit(event) {
             />
         </div>
 
-      <div className="mb-3">
+        <div className="mb-3">
         <label className="form-label fw-semibold" htmlFor="course-description">
             Descripción
             </label>
 
         <textarea
-          className="form-control"
+            className="form-control"
             id="course-description"
             name="description"
             value={course.description}
@@ -111,13 +111,13 @@ async function handleSubmit(event) {
             />
         </div>
 
-      <div className="mb-3">
+        <div className="mb-3">
         <label className="form-label fw-semibold" htmlFor="course-duration">
             Duración
             </label>
 
         <input
-          className="form-control"
+            className="form-control"
             id="course-duration"
             name="duration"
             type="text"
@@ -128,13 +128,13 @@ async function handleSubmit(event) {
             />
         </div>
 
-      <div className="mb-3">
+        <div className="mb-3">
         <label className="form-label fw-semibold" htmlFor="course-modality">
             Modalidad
             </label>
 
         <select
-          className="form-select"
+            className="form-select"
             id="course-modality"
             name="modality"
             value={course.modality}
@@ -151,13 +151,13 @@ async function handleSubmit(event) {
             </select>
         </div>
 
-      <div className="mb-3">
+        <div className="mb-3">
         <label className="form-label fw-semibold" htmlFor="course-price">
             Precio
             </label>
 
         <input
-          className="form-control"
+            className="form-control"
             id="course-price"
             name="price"
             type="number"
@@ -169,13 +169,13 @@ async function handleSubmit(event) {
             />
         </div>
 
-      <div className="mb-3">
+        <div className="mb-3">
         <label className="form-label fw-semibold" htmlFor="course-teacher">
             Profesor
             </label>
 
         <select
-          className="form-select"
+            className="form-select"
             id="course-teacher"
             name="teacher"
             value={course.teacher}
@@ -198,9 +198,9 @@ async function handleSubmit(event) {
             </select>
         </div>
 
-      <div className="d-flex flex-wrap gap-2">
+        <div className="d-flex flex-wrap gap-2">
         <button
-          className="btn btn-quanti"
+            className="btn btn-quanti"
             type="submit"
             disabled={saving}
             >
@@ -212,7 +212,7 @@ async function handleSubmit(event) {
             </button>
 
             {courseToEdit && (
-          <button
+            <button
             className="btn btn-outline-secondary"
                 type="button"
                 onClick={onCancel}
