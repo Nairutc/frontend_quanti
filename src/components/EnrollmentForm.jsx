@@ -4,8 +4,7 @@ import {
 } from 'react';
 
 const initialEnrollment = {
-  studentName: '',
-  studentEmail: '',
+  student: '',
   course: '',
   status: 'pendiente',
 };
@@ -13,6 +12,7 @@ const initialEnrollment = {
 function EnrollmentForm({
   enrollmentToEdit,
   courses,
+  students,
   onSave,
   onCancel,
   saving,
@@ -23,10 +23,10 @@ function EnrollmentForm({
   useEffect(() => {
     if (enrollmentToEdit) {
       setEnrollment({
-        studentName:
-          enrollmentToEdit.studentName || '',
-        studentEmail:
-          enrollmentToEdit.studentEmail || '',
+        student:
+          enrollmentToEdit.student?._id ||
+          enrollmentToEdit.student ||
+          '',
         course:
           enrollmentToEdit.course?._id ||
           enrollmentToEdit.course ||
@@ -53,12 +53,7 @@ function EnrollmentForm({
     event.preventDefault();
 
     const saved = await onSave({
-      studentName:
-        enrollment.studentName.trim(),
-      studentEmail:
-        enrollment.studentEmail
-          .trim()
-          .toLowerCase(),
+      student: enrollment.student,
       course: enrollment.course,
       status: enrollment.status,
     });
@@ -80,37 +75,31 @@ function EnrollmentForm({
       </h3>
 
       <div className="mb-3">
-        <label className="form-label fw-semibold" htmlFor="student-name">
-          Nombre del estudiante
+        <label className="form-label fw-semibold" htmlFor="enrollment-student">
+          Estudiante
         </label>
 
-        <input
-          className="form-control"
-          id="student-name"
-          name="studentName"
-          type="text"
-          value={enrollment.studentName}
-          onChange={handleChange}
-          minLength="3"
-          maxLength="50"
-          required
-        />
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label fw-semibold" htmlFor="student-email">
-          Correo del estudiante
-        </label>
-
-        <input
-          className="form-control"
-          id="student-email"
-          name="studentEmail"
-          type="email"
-          value={enrollment.studentEmail}
+        <select
+          className="form-select"
+          id="enrollment-student"
+          name="student"
+          value={enrollment.student}
           onChange={handleChange}
           required
-        />
+        >
+          <option value="">
+            Selecciona un estudiante
+          </option>
+
+          {students.map((student) => (
+            <option
+              key={student._id}
+              value={student._id}
+            >
+              {student.name} ({student.email})
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-3">

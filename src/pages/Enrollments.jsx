@@ -9,6 +9,7 @@ import {
   eliminarInscripcion,
   obtenerCursos,
   obtenerInscripciones,
+  obtenerUsuarios,
 } from '../service/api.js';
 
 import EnrollmentForm from '../components/EnrollmentForm.jsx';
@@ -19,6 +20,9 @@ function Enrollments() {
     useState([]);
 
   const [courses, setCourses] =
+    useState([]);
+
+  const [students, setStudents] =
     useState([]);
 
   const [
@@ -38,17 +42,29 @@ function Enrollments() {
   useEffect(() => {
     async function cargarDatos() {
       try {
-        const enrollmentsResult =
-          await obtenerInscripciones();
-
-        const coursesResult =
-          await obtenerCursos();
+        const [
+          enrollmentsResult,
+          coursesResult,
+          usersResult,
+        ] = await Promise.all([
+          obtenerInscripciones(),
+          obtenerCursos(),
+          obtenerUsuarios(),
+        ]);
 
         setEnrollments(
           enrollmentsResult.data,
         );
 
         setCourses(coursesResult.data);
+
+        setStudents(
+          usersResult.data.filter(
+            (user) =>
+              user.role === 'student' &&
+              user.active,
+          ),
+        );
       } catch (error) {
         setError(error.message);
       } finally {
@@ -67,11 +83,6 @@ function Enrollments() {
     setSaving(true);
 
     try {
-      const selectedCourse = courses.find(
-        (course) =>
-          course._id === enrollmentData.course,
-      );
-
       if (enrollmentToEdit) {
         const result =
           await actualizarInscripcion(
@@ -79,16 +90,11 @@ function Enrollments() {
             enrollmentData,
           );
 
-        const updatedEnrollment = {
-          ...result.data,
-          course: selectedCourse,
-        };
-
         setEnrollments(
           enrollments.map((enrollment) =>
             enrollment._id ===
             enrollmentToEdit._id
-              ? updatedEnrollment
+              ? result.data
               : enrollment,
           ),
         );
@@ -107,13 +113,8 @@ function Enrollments() {
           enrollmentData,
         );
 
-      const newEnrollment = {
-        ...result.data,
-        course: selectedCourse,
-      };
-
       setEnrollments([
-        newEnrollment,
+        result.data,
         ...enrollments,
       ]);
 
@@ -226,6 +227,7 @@ function Enrollments() {
           enrollmentToEdit
         }
         courses={courses}
+        students={students}
         onSave={guardarInscripcion}
         onCancel={cancelarEdicion}
         saving={saving}

@@ -52,11 +52,13 @@ function EnrollmentTable({
             (enrollment) => (
               <tr key={enrollment._id}>
                 <td>
-                  {enrollment.studentName}
+                  {enrollment.student?.name ??
+                    enrollment.studentName}
                 </td>
 
                 <td>
-                  {enrollment.studentEmail}
+                  {enrollment.student?.email ??
+                    enrollment.studentEmail}
                 </td>
 
                 <td>
